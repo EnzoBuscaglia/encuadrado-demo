@@ -1,0 +1,30 @@
+# VCS and project metadata
+.git
+.gitignore
+*.md
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+*.pytest_cache
+
+# Docker + Compose
+Dockerfile*
+docker-compose.yml
+
+# Environment/config
+.env*
+.dev_env/
+prospector.yaml
+
+# Local tooling/scripts
+up
+up.bat
+
+# Development-only folders
+/notebooks/
+/db/
