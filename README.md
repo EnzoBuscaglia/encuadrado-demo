@@ -1,5 +1,9 @@
 # Encuadrado: Demo for "La Vitrina"
 
+## Setup
+
+In order to start the Docker services run the up files in terminal: `./up`
+
 ## CI/CD
 
 - Format using Black and isort.
