@@ -5,7 +5,8 @@ COPY backend/ /app/
 
 RUN apt-get -qq update && \
   apt-get install --fix-missing --no-install-recommends -y \
-  gettext && \
+  gettext \
+  gcc && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
