@@ -10,7 +10,7 @@ RUN apt-get -qq update && \
   rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip && \
-  pip install poetry && \
+  pip install "poetry==2.1.0" && \
   poetry config virtualenvs.create false
 RUN poetry install
 
