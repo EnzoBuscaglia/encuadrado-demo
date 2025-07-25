@@ -1,0 +1,57 @@
+[tool.poetry]
+package-mode = false
+name = "showcase"
+version = "0.1.0"
+description = "La Vitrina demo backend project"
+authors = ["Enzo Buscaglia <embuscagliah@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+beautifulsoup4 = "^4.12.3"
+django = "^5.1"
+djangorestframework = "^3.15.2"
+numpy = "^2.1.0"
+psycopg2-binary = "^2.9.9"
+regex = "^2024.7.24"
+requests = "^2.32.3"
+django-configurations = "^2.5.1"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
+isort = "^5.13.2"
+prospector = "^1.10.3"
+setuptools = "^75.0.0"
+
+[tool.black]
+line-length = 98
+target-version = ['py311']
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | \.local
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+  | ^.*\b(migrations)\b.*$
+  | manage.py
+  | gunicorn.conf.py
+)
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 98
+skip = ["migrations"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
