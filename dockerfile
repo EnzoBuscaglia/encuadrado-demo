@@ -15,7 +15,7 @@ RUN pip install --upgrade pip && \
   poetry config virtualenvs.create false
 RUN poetry install
 
-# RUN poetry run python manage.py collectstatic --noinput
+RUN poetry run python manage.py collectstatic --noinput
 # RUN poetry run python manage.py compilemessages
 
 EXPOSE 6000
