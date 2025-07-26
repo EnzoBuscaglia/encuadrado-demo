@@ -14,7 +14,6 @@ services:
       - ./backend/poetry.lock:/app/poetry.lock
       - ./backend/manage.py:/app/manage.py
       - ./backend/showcase:/app/showcase
-      - ./backend/model:/app/model
     env_file:
       - .env
     depends_on:
