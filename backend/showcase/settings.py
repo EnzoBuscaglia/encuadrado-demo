@@ -44,6 +44,7 @@ class Common(Configuration):
         "django.contrib.staticfiles",
         "rest_framework",
         "showcase",
+        "model",
     ]
 
     MIDDLEWARE = [
