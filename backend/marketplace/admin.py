@@ -18,6 +18,7 @@ class EventRegistrationAdmin(admin.ModelAdmin):
         "get_customer_name",
         "get_customer_email",
         "get_normal_price",
+        "get_discount_code",
         "payment_status",
         "paid_at",
         "get_final_price",
@@ -44,6 +45,10 @@ class EventRegistrationAdmin(admin.ModelAdmin):
     def get_final_price(self, obj):
         return f"${obj.final_price:,}".replace(",", ".")
 
+    @admin.display(description="Discount Code")
+    def get_discount_code(self, obj):
+        return obj.discount_code.code if obj.discount_code else "-"
+
 
 @admin.register(ContentDownload)
 class ContentDownloadAdmin(admin.ModelAdmin):
@@ -52,6 +57,7 @@ class ContentDownloadAdmin(admin.ModelAdmin):
         "get_customer_name",
         "get_customer_email",
         "get_normal_price",
+        "get_discount_code",
         "payment_status",
         "paid_at",
         "get_final_price",
@@ -77,3 +83,7 @@ class ContentDownloadAdmin(admin.ModelAdmin):
     @admin.display(description="Final Price")
     def get_final_price(self, obj):
         return f"${obj.final_price:,}".replace(",", ".")
+
+    @admin.display(description="Discount Code")
+    def get_discount_code(self, obj):
+        return obj.discount_code.code if obj.discount_code else "-"
