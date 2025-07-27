@@ -36,7 +36,7 @@ class EventRegistration(models.Model):
     paid_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.user.name} -> {self.event.name}"
+        return f"{self.customer.name} -> {self.event.name}"
 
 
 class ContentDownload(models.Model):
@@ -60,4 +60,4 @@ class ContentDownload(models.Model):
     paid_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.user.name} -> {self.content.name}"
+        return f"{self.customer.name} -> {self.content.name}"
