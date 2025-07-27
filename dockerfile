@@ -18,4 +18,4 @@ RUN poetry install
 RUN poetry run python manage.py collectstatic --noinput
 # RUN poetry run python manage.py compilemessages
 
-EXPOSE 6000
+EXPOSE 8000

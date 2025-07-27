@@ -5,9 +5,9 @@ services:
       dockerfile: Dockerfile
     image: vitrina-web
     container_name: vitrina-web
-    command: python manage.py runserver 0.0.0.0:6000
+    command: python manage.py runserver 0.0.0.0:8000
     ports:
-      - 6000:6000
+      - 8000:8000
     volumes:
       - ./backend/.prospector.yaml:/app/.prospector.yaml
       - ./backend/pyproject.toml:/app/pyproject.toml
