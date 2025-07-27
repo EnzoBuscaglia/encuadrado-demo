@@ -45,6 +45,7 @@ class Common(Configuration):
         "rest_framework",
         "showcase",
         "model",
+        "marketplace",
     ]
 
     MIDDLEWARE = [
