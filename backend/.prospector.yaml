@@ -1,0 +1,34 @@
+uses:
+  - django
+
+pylint:
+  run: true
+  disable:
+    - django-not-configured # GOLD.
+    - C0114  # missing module docstring
+    - C0301  # line length checking
+    - R0913  # too-many-arguments
+    - R0917  # too-many-positional-arguments
+  messages_control:
+    - message-id: W0120  # unnecessary else after return
+      severity: error
+    - message-id: W0612  # Unused variable in function
+      severity: error
+    - message-id: W0611  # Unused import
+      severity: error
+  options:
+    ignore: migrations
+pycodestyle:
+  run: false  # Disable pycodestyle
+mccabe:
+  run: true
+  threshold: 10  # Default threshold
+
+ignore-patterns:
+  - (^|/)migrations(/|$)
+
+options:
+  ignored-argument-names: args|kwargs
+
+strictness: medium
+output-format: text

@@ -1,0 +1,61 @@
+name: Code Quality
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  prospector-black-isort-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: gh_action_db
+          POSTGRES_USER: gh_action_user
+          POSTGRES_PASSWORD: gh_action_pass
+        ports:
+          - 5432:5432 #TODO: CHECK
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.13
+      - name: Cache Poetry dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pypoetry
+          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
+      - name: Install Poetry 2.1.1
+        run: |
+          pip install --upgrade pip --user && \
+          pip install "poetry==2.1.1"
+      - name: Install dependencies
+        run: |
+          poetry install --no-root --no-interaction --no-ansi
+      - name: Run Prospector
+        run: |
+          poetry run prospector -X
+      - name: Check code formatting with Black
+        run: |
+          poetry run black --check .
+      - name: Check import sorting with isort
+        run: |
+          poetry run isort --check-only .
+      - name: Run tests
+        env:
+          ENVIRONMENT: ${{ vars.ENVIRONMENT }}
+        run: |
+          poetry run python manage.py test

@@ -1,0 +1,38 @@
+services:
+  vitrina_web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: vitrina-web
+    container_name: vitrina-web
+    command: python manage.py runserver 0.0.0.0:6000
+    ports:
+      - 6000:6000
+    volumes:
+      - ./backend/.prospector.yaml:/app/.prospector.yaml
+      - ./backend/pyproject.toml:/app/pyproject.toml
+      - ./backend/poetry.lock:/app/poetry.lock
+      - ./backend/manage.py:/app/manage.py
+      - ./backend/showcase:/app/showcase
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    stdin_open: true
+    tty: true
+
+  postgres:
+    image: postgres:17
+    container_name: vitrina-postgres
+    ports:
+      - 5432:5432 # TODO: CHECK.
+    volumes:
+      - data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres-db
+      POSTGRES_USER: postgres-user
+      POSTGRES_PASSWORD: postgres-pass
+
+volumes:
+  data:
+    driver: local
