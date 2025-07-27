@@ -1,3 +1,4 @@
+import random
 from datetime import timedelta
 
 from django.core.management.base import BaseCommand
@@ -20,12 +21,14 @@ class Command(BaseCommand):
         # Create 15 events
         for i in range(15):
             is_online = i % 2 == 0
+            base_price = 10000 + (i * 1700)
+            price = base_price + random.randint(0, 9)
             Event.objects.create(
                 name=f"Evento {i+1}",
                 description=f"Descripción detallada del evento {i+1}. Aprende sobre cosas útiles.",
                 start_time=base_date + timedelta(days=i + 1),
                 duration=timedelta(hours=(1 + i % 3)),
-                price=10000 + (i * 1700),
+                price=price,
                 capacity=(None if i % 5 == 0 else 50 + i * 2),
                 is_online=is_online,
                 video_call_url=f"https://meet.example.com/evento{i+1}" if is_online else "",
@@ -34,10 +37,12 @@ class Command(BaseCommand):
 
         # Create 15 digital contents
         for i in range(15):
+            base_price = 5000 + (i * 1200)
+            price = base_price + random.randint(0, 9)
             DigitalContent.objects.create(
                 name=f"Contenido Digital {i+1}",
                 description=f"Contenido descargable número {i+1}. Ebook, guía o curso en PDF.",
-                price=5000 + (i * 1200),
+                price=price,
                 file_url=f"https://downloads.example.com/content_{i+1}.pdf",
             )
 
