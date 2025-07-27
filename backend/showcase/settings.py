@@ -147,10 +147,10 @@ class Staging(Development):
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "HOST": "postgres",
-            "NAME": "postgres-db",
-            "USER": "postgres-user",
-            "PASSWORD": "postgres-pass",
+            "HOST": "localhost",
+            "NAME": "gh_action_db",
+            "USER": "gh_action_user",
+            "PASSWORD": "gh_action_pass",
             "PORT": "5432",
         }
     }
