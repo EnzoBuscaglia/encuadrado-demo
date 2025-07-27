@@ -15,7 +15,8 @@ class CustomerAdmin(admin.ModelAdmin):
 class EventRegistrationAdmin(admin.ModelAdmin):
     list_display = (
         "event",
-        "customer",
+        "customer__name",
+        "customer__email",
         "payment_status",
         "paid_at",
         "final_price",
@@ -31,7 +32,8 @@ class EventRegistrationAdmin(admin.ModelAdmin):
 class ContentDownloadAdmin(admin.ModelAdmin):
     list_display = (
         "content",
-        "customer",
+        "customer__name",
+        "customer__email",
         "payment_status",
         "paid_at",
         "final_price",
