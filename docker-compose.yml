@@ -30,9 +30,9 @@ services:
     volumes:
       - data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: postgres-db
-      POSTGRES_USER: postgres-user
-      POSTGRES_PASSWORD: postgres-pass
+      POSTGRES_DB: showcase_db
+      POSTGRES_USER: showcase_user
+      POSTGRES_PASSWORD: showcase_pass
 
 volumes:
   data:
