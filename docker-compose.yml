@@ -5,15 +5,17 @@ services:
       dockerfile: Dockerfile
     image: vitrina-web
     container_name: vitrina-web
-    command: python manage.py runserver 0.0.0.0:6000
+    command: python manage.py runserver 0.0.0.0:8000
     ports:
-      - 6000:6000
+      - 8000:8000
     volumes:
       - ./backend/.prospector.yaml:/app/.prospector.yaml
       - ./backend/pyproject.toml:/app/pyproject.toml
       - ./backend/poetry.lock:/app/poetry.lock
       - ./backend/manage.py:/app/manage.py
       - ./backend/showcase:/app/showcase
+      - ./backend/model:/app/model
+      - ./backend/marketplace:/app/marketplace
     env_file:
       - .env
     depends_on:
@@ -29,9 +31,9 @@ services:
     volumes:
       - data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: postgres-db
-      POSTGRES_USER: postgres-user
-      POSTGRES_PASSWORD: postgres-pass
+      POSTGRES_DB: showcase_db
+      POSTGRES_USER: showcase_user
+      POSTGRES_PASSWORD: showcase_pass
 
 volumes:
   data:
