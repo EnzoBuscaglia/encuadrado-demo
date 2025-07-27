@@ -1,4 +1,3 @@
-from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 
 from model.models import DigitalContent, DiscountCode, Event
