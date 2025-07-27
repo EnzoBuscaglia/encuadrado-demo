@@ -15,11 +15,12 @@ class CustomerAdmin(admin.ModelAdmin):
 class EventRegistrationAdmin(admin.ModelAdmin):
     list_display = (
         "event",
-        "customer__name",
-        "customer__email",
+        "get_customer_name",
+        "get_customer_email",
+        "get_normal_price",
         "payment_status",
         "paid_at",
-        "final_price",
+        "get_final_price",
         "created_at",
     )
     search_fields = ("customer__name", "customer__email", "event__name")
@@ -27,19 +28,52 @@ class EventRegistrationAdmin(admin.ModelAdmin):
     ordering = ("-created_at",)
     readonly_fields = ("created_at", "paid_at")
 
+    @admin.display(description="Customer Name")
+    def get_customer_name(self, obj):
+        return obj.customer.name
+
+    @admin.display(description="Customer Email")
+    def get_customer_email(self, obj):
+        return obj.customer.email
+
+    @admin.display(description="Normal Price")
+    def get_normal_price(self, obj):
+        return f"${obj.normal_price:,}".replace(",", ".")
+
+    @admin.display(description="Final Price")
+    def get_final_price(self, obj):
+        return f"${obj.final_price:,}".replace(",", ".")
+
 
 @admin.register(ContentDownload)
 class ContentDownloadAdmin(admin.ModelAdmin):
     list_display = (
         "content",
-        "customer__name",
-        "customer__email",
+        "get_customer_name",
+        "get_customer_email",
+        "get_normal_price",
         "payment_status",
         "paid_at",
-        "final_price",
+        "get_final_price",
         "created_at",
     )
     search_fields = ("customer__name", "customer__email", "content__name")
     list_filter = ("payment_status",)
     ordering = ("-created_at",)
     readonly_fields = ("created_at", "paid_at")
+
+    @admin.display(description="Customer Name")
+    def get_customer_name(self, obj):
+        return obj.customer.name
+
+    @admin.display(description="Customer Email")
+    def get_customer_email(self, obj):
+        return obj.customer.email
+
+    @admin.display(description="Normal Price")
+    def get_normal_price(self, obj):
+        return f"${obj.normal_price:,}".replace(",", ".")
+
+    @admin.display(description="Final Price")
+    def get_final_price(self, obj):
+        return f"${obj.final_price:,}".replace(",", ".")
