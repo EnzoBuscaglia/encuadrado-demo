@@ -1,0 +1,156 @@
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { getContents, purchaseContent } from "../api";
+
+export default function ContentDetail() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [content, setContent] = useState(null);
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    paymentMethod: "card",
+    discountCode: "",
+  });
+  const [status, setStatus] = useState(null);
+  const [error, setError] = useState(null);
+
+  // Fetch content details
+  useEffect(() => {
+    getContents().then((contents) => {
+      const found = contents.find((e) => e.id === Number(id));
+      setContent(found || null);
+    });
+  }, [id]);
+
+  const handleChange = (e) => {
+    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus(null);
+    setError(null);
+    try {
+      const res = await purchaseContent({
+        name: form.name,
+        email: form.email,
+        content_id: content.id, // <-- FIXED: Use content_id
+        payment_method: form.paymentMethod,
+        discount_code: form.discountCode,
+      });
+      setStatus(res.status);
+    } catch (err) {
+      setError("Ocurrió un error al procesar la compra.");
+    }
+  };
+
+  if (!content) return <div className="p-6">Cargando contenido...</div>;
+
+  // Show result if purchased
+  if (status === "paid")
+    return (
+      <div className="p-6 text-center">
+        <h2 className="text-2xl font-bold mb-2">✅ ¡Pago exitoso!</h2>
+        <p>
+          Has comprado <b>{content.name}</b>. El enlace de descarga está en tu
+          email, o{" "}
+          <a
+            href={content.file_url}
+            className="underline text-[#FF6F61]"
+            download
+          >
+            descárgalo aquí
+          </a>
+          .
+        </p>
+        <button
+          className="mt-4 px-4 py-2 bg-[#FF6F61] rounded text-white"
+          onClick={() => navigate("/store")}
+        >
+          Volver a la vitrina
+        </button>
+      </div>
+    );
+  if (status === "failed")
+    return (
+      <div className="p-6 text-center">
+        <h2 className="text-2xl font-bold mb-2">❌ Pago rechazado</h2>
+        <p>
+          Tu pago no fue aprobado. Puedes intentar con otro método o revisar los
+          datos ingresados.
+        </p>
+        <button
+          className="mt-4 px-4 py-2 bg-[#FF6F61] rounded text-white"
+          onClick={() => setStatus(null)}
+        >
+          Intentar nuevamente
+        </button>
+      </div>
+    );
+
+  return (
+    <div className="max-w-md mx-auto p-6 bg-[#1A1C26] rounded-lg text-white">
+      <h2 className="text-2xl font-bold mb-2">{content.name}</h2>
+      <p className="mb-2">{content.description}</p>
+      <p>
+        <b>Precio:</b> ${content.price.toLocaleString("es-CL")}
+      </p>
+      <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+        <input
+          name="name"
+          value={form.name}
+          onChange={handleChange}
+          placeholder="Tu nombre"
+          required
+          className="w-full p-2 rounded bg-[#22232d] text-white"
+        />
+        <input
+          name="email"
+          value={form.email}
+          onChange={handleChange}
+          placeholder="Tu correo"
+          type="email"
+          required
+          className="w-full p-2 rounded bg-[#22232d] text-white"
+        />
+        <div className="flex gap-4">
+          <label>
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="card"
+              checked={form.paymentMethod === "card"}
+              onChange={handleChange}
+            />{" "}
+            Tarjeta
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="other"
+              checked={form.paymentMethod === "other"}
+              onChange={handleChange}
+            />{" "}
+            Otro medio
+          </label>
+        </div>
+        <input
+          name="discountCode"
+          value={form.discountCode}
+          onChange={handleChange}
+          placeholder="Código de descuento (opcional)"
+          className="w-full p-2 rounded bg-[#22232d] text-white"
+        />
+        <button
+          className="w-full py-2 bg-[#FF6F61] rounded text-white font-bold"
+          type="submit"
+        >
+          Comprar y Descargar
+        </button>
+        {error && <div className="text-red-400 text-sm">{error}</div>}
+      </form>
+    </div>
+  );
+}
