@@ -42,6 +42,7 @@ class Common(Configuration):
         "django.contrib.sessions",
         "django.contrib.messages",
         "django.contrib.staticfiles",
+        "corsheaders",
         "rest_framework",
         "showcase",
         "model",
@@ -49,11 +50,12 @@ class Common(Configuration):
     ]
 
     MIDDLEWARE = [
+        "corsheaders.middleware.CorsMiddleware",
         "django.middleware.security.SecurityMiddleware",
         "whitenoise.middleware.WhiteNoiseMiddleware",
         "django.contrib.sessions.middleware.SessionMiddleware",
         "django.middleware.common.CommonMiddleware",
-        "django.middleware.csrf.CsrfViewMiddleware",
+        # "django.middleware.csrf.CsrfViewMiddleware",
         "django.contrib.auth.middleware.AuthenticationMiddleware",
         "django.contrib.messages.middleware.MessageMiddleware",
         "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -107,9 +109,8 @@ class Development(Common):
 
     DEBUG = True
     ALLOWED_HOSTS = []
-    CSRF_TRUSTED_ORIGINS = [
-        "http://localhost:5173",
-    ]
+    CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
+    CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]
     LOGGING = {
         "version": 1,
         "disable_existing_loggers": False,
