@@ -33,3 +33,4 @@ npm install
 - We'll use the Django admin panel as the `/admin` endpoint since its essentially the same as creating an API endpoint that will perform the same operations and visually present the same information.
 - We assume that the professional (admin) understands English and can navigate the model fields in the admin panel in order to create/modify/delete Events, Digital Contents, and Discount Codes.
 - We also assume that there's only one admin, so there's no need to include a "professional_id" field for any Model app models (Event, DigitalContent, DiscountCode).
+- **For this demo, we assume no authentication is required for the API endpoints, and that CSRF and CORS protections are either disabled or configured permissively for ease of local development.**
