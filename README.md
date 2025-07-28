@@ -1,13 +1,28 @@
 # Encuadrado: Demo for "La Vitrina"
 
-## Setup
+## Backend
+
+### Setup
 
 In order to start the Docker services run the up files in terminal: `./up`
 
-## CI/CD
+### CI/CD
 
 - Format using Black and isort.
 - Check logic patterns using prospector. [Click here to check pylint documentation.](https://pylint.pycqa.org/en/latest/user_guide/messages/index.html).
+
+## Frontend
+
+This project requires Node.js **v20.19.0 or higher** (Vite 7+ compatibility).
+
+We recommend using the latest stable Node.js version (e.g. v22.x).
+
+### Install dependencies
+
+```bash
+cd frontend
+npm install
+```
 
 ## Assumptions
 
