@@ -27,6 +27,7 @@ class Command(BaseCommand):
                 check=True,
             )
             dump_path = "db/dump.json"
+            os.makedirs(os.path.dirname(dump_path), exist_ok=True)
             with open(file=dump_path, mode="w", encoding="utf-8") as f:
                 f.write(result.stdout)
             logger.info("Successfully dumped entire database to %s", dump_path)
