@@ -88,10 +88,11 @@ class Common(Configuration):
     REST_FRAMEWORK = {
         # Use Django's standard `django.contrib.auth` permissions,
         # or allow read-only access for unauthenticated users.
-        "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
+        # "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
+        "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
         "DEFAULT_AUTHENTICATION_CLASSES": (
-            "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
-            "rest_framework_social_oauth2.authentication.SocialAuthentication",
+            #     "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
+            #     "rest_framework_social_oauth2.authentication.SocialAuthentication",
             "rest_framework.authentication.SessionAuthentication",
         ),
         "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
