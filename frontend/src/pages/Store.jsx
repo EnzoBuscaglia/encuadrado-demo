@@ -10,6 +10,8 @@ export default function Store() {
     getContents().then(setContents);
   }, []);
 
+  const now = new Date();
+
   return (
     <div className="w-screen h-screen bg-[#1A1C26] text-white p-6 overflow-hidden">
       <div className="flex items-center justify-center mb-6 gap-3">
@@ -23,28 +25,53 @@ export default function Store() {
       <div className="flex h-[90%]">
         {/* Events Column */}
         <section className="w-1/2 h-full overflow-y-scroll pr-2 border-r border-[#FCECEA]/20">
-          <h2 className="text-2xl font-bold mb-4 text-[#FAFAFA]">📅Eventos</h2>
+          <h2 className="text-2xl font-bold mb-4 text-[#FAFAFA]">📅 Eventos</h2>
           <div className="space-y-4">
-            {events.map((event) => (
-              <div
-                key={event.id}
-                className="p-4 rounded-lg shadow bg-[#FF6F61] hover:bg-[#F05A4F] transition-colors"
-              >
-                <h3 className="text-lg font-semibold text-[#FAFAFA]">
-                  {event.name}
-                </h3>
-                <p className="text-sm text-[#FCECEA]">{event.description}</p>
-                <p className="text-sm mt-2 font-medium text-[#FAFAFA]">
-                  Precio: ${event.price.toLocaleString("es-CL")}
-                </p>
-                <a
-                  href={`/store/event/${event.id}`}
-                  className="text-[#FCECEA] underline text-sm mt-2 block"
+            {events.map((event) => {
+              const eventDate = new Date(event.start_time);
+              const isPast = eventDate < now;
+              const isFull = event.is_full;
+              const isDisabled = isPast || isFull;
+
+              return (
+                <div
+                  key={event.id}
+                  className={`p-4 rounded-lg shadow bg-[#FF6F61] transition-colors ${
+                    isDisabled
+                      ? "opacity-50 pointer-events-none"
+                      : "hover:bg-[#F05A4F]"
+                  }`}
                 >
-                  Ver más
-                </a>
-              </div>
-            ))}
+                  <h3 className="text-lg font-semibold text-[#FAFAFA]">
+                    {event.name}
+                  </h3>
+                  <p className="text-sm text-[#FCECEA]">{event.description}</p>
+                  <p className="text-sm mt-2 font-medium text-[#FAFAFA]">
+                    Precio: ${event.price.toLocaleString("es-CL")}
+                  </p>
+                  <a
+                    href={`/store/event/${event.id}`}
+                    className={`text-[#FCECEA] underline text-sm mt-2 block ${
+                      isDisabled ? "cursor-not-allowed" : ""
+                    }`}
+                    tabIndex={isDisabled ? -1 : 0}
+                    aria-disabled={isDisabled}
+                  >
+                    Ver más
+                  </a>
+                  {isFull && (
+                    <div className="text-sm text-yellow-100 mt-1 font-semibold">
+                      Sin cupos disponibles
+                    </div>
+                  )}
+                  {isPast && (
+                    <div className="text-sm text-yellow-100 mt-1 font-semibold">
+                      Evento finalizado
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </section>
 

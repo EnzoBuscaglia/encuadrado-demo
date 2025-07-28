@@ -5,9 +5,26 @@ from model.models import DigitalContent, Event
 
 
 class EventSerializer(serializers.ModelSerializer):
+    is_full = serializers.SerializerMethodField()
+
     class Meta:
         model = Event
-        fields = ["id", "name", "description", "start_time", "duration", "price", "is_online"]
+        fields = [
+            "id",
+            "name",
+            "description",
+            "start_time",
+            "duration",
+            "price",
+            "is_online",
+            "capacity",
+            "is_full",
+        ]
+
+    def get_is_full(self, obj):
+        if obj.capacity is None:
+            return False
+        return obj.registrations.count() >= obj.capacity
 
 
 class DigitalContentSerializer(serializers.ModelSerializer):
