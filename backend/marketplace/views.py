@@ -1,7 +1,5 @@
 from django.shortcuts import get_object_or_404
-from django.utils.decorators import method_decorator
 from django.utils.timezone import now
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
