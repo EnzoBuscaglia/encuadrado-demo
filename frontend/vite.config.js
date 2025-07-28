@@ -9,6 +9,7 @@ export default defineConfig({
     proxy: {
       "/admin": "http://localhost:8000",
       "/static": "http://localhost:8000",
+      "/api/store": "http://localhost:8000",
     },
   },
 });
