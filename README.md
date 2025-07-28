@@ -10,6 +10,8 @@ To actually use the product, *cd* into the frontend directory and then run `npm 
 
 The endpoints will be available at ``http://localhost:5173/admin`` and ``http://localhost:5173/store``.
 
+To test the disable Events live (by capacity) register in the Event "Evento con 1 cupo" and watch how it become disabled.
+
 ### CI/CD
 
 - Format using Black and isort.
