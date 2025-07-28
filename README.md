@@ -4,7 +4,11 @@
 
 ### Setup
 
-In order to start the Docker services run the up files in terminal: `./up`
+In order to start the Docker services simply run the up files in a terminal: `./up`. When that's ready, migrate the models by attaching the container shell and running `python manage.py migrate`. Then, to obtain a minimal database setup, simply run `python manage.py load_db` which will already have the admin credentials for the `/admin` endpoint.
+
+To actually use the product, *cd* into the frontend directory and then run `npm run dev`. If for any reason Vite is not porting to *5173*, just remember to modify the port in _backend/showcase/settings.py_ `CSRF_TRUSTED_ORIGINS` and `CORS_ALLOWED_ORIGINS` to whatever Vite ported.
+
+The endpoints will be available at ``http://localhost:5173/admin`` and ``http://localhost:5173/store``.
 
 ### CI/CD
 
