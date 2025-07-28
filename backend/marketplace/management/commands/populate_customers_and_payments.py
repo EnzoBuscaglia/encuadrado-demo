@@ -27,11 +27,7 @@ class Command(BaseCommand):
 
     def create_customers(self):
         return [
-            Customer.objects.create(
-                name=f"Cliente {i+1}",
-                email=f"cliente{i+1}@demo.com",
-                password="dummy-pass",
-            )
+            Customer.objects.create(name=f"Cliente {i+1}", email=f"cliente{i+1}@demo.com")
             for i in range(10)
         ]
 
