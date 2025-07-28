@@ -107,6 +107,9 @@ class Development(Common):
 
     DEBUG = True
     ALLOWED_HOSTS = []
+    CSRF_TRUSTED_ORIGINS = [
+        "http://localhost:5173",
+    ]
     LOGGING = {
         "version": 1,
         "disable_existing_loggers": False,
