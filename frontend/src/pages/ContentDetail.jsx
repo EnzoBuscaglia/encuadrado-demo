@@ -56,7 +56,12 @@ export default function ContentDetail() {
       });
       setStatus(res.status);
     } catch (err) {
-      setError("Ocurrió un error al procesar la compra.");
+      // Show backend message if available
+      if (err.response && err.response.data && err.response.data.error) {
+        setError(err.response.data.error);
+      } else {
+        setError("Ocurrió un error al procesar la compra.");
+      }
     }
   };
 

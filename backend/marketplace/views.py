@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
 from django.utils.timezone import now
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -26,6 +28,7 @@ class DigitalContentViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class EventPurchaseView(APIView):
+
     def post(self, request):
         serializer = EventRegistrationCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -34,14 +37,20 @@ class EventPurchaseView(APIView):
             email=data["email"], defaults={"name": data["name"]}
         )
         event = get_object_or_404(Event, id=data["event_id"])
-        discount = DiscountCode.objects.filter(
-            code=data.get("discount_code", ""), is_active=True
-        ).first()
-
+        discount_code_input = data.get("discount_code", "").strip()
+        discount = None
+        if discount_code_input:
+            discount = DiscountCode.objects.filter(
+                code=discount_code_input, is_active=True
+            ).first()
+            if not discount:
+                return Response(
+                    {"error": "El código de descuento no es válido."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
         normal_price = event.price
         discount_amount = (discount.discount_percentage * normal_price // 100) if discount else 0
         final_price = normal_price - discount_amount
-
         if data["payment_method"] == "card" and final_price % 10 >= 8:
             status_ = PaymentStatus.FAILED
             paid_at = None
@@ -73,9 +82,17 @@ class ContentPurchaseView(APIView):
         )
 
         content = get_object_or_404(DigitalContent, id=data["content_id"])
-        discount = DiscountCode.objects.filter(
-            code=data.get("discount_code", ""), is_active=True
-        ).first()
+        discount_code_input = data.get("discount_code", "").strip()
+        discount = None
+        if discount_code_input:
+            discount = DiscountCode.objects.filter(
+                code=discount_code_input, is_active=True
+            ).first()
+            if not discount:
+                return Response(
+                    {"error": "El código de descuento no es válido."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
         normal_price = content.price
         discount_amount = (discount.discount_percentage * normal_price // 100) if discount else 0
