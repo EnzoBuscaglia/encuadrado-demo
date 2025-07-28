@@ -92,10 +92,14 @@ class Common(Configuration):
         # or allow read-only access for unauthenticated users.
         # "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
         "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
+        # "DEFAULT_AUTHENTICATION_CLASSES": (
+        #     "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
+        #     "rest_framework_social_oauth2.authentication.SocialAuthentication",
+        # "rest_framework.authentication.SessionAuthentication",
+        # ),
         "DEFAULT_AUTHENTICATION_CLASSES": (
-            #     "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
-            #     "rest_framework_social_oauth2.authentication.SocialAuthentication",
-            "rest_framework.authentication.SessionAuthentication",
+            "rest_framework.authentication.BasicAuthentication",
+            "rest_framework.authentication.TokenAuthentication",
         ),
         "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
         "PAGE_SIZE": int(os.getenv("REST_FRAMEWORK_PAGE_SIZE", "50")),
