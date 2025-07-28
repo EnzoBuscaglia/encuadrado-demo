@@ -12,8 +12,14 @@ export default function Store() {
 
   return (
     <div className="w-screen h-screen bg-[#1A1C26] text-white p-6 overflow-hidden">
-      <img src="/encuadrado2.png" alt="Encuadrado Logo" className="w-10 h-10" />
-      <h1 className="text-4xl font-bold text-center mb-6">La Vitrina</h1>
+      <div className="flex items-center justify-center mb-6 gap-3">
+        <img
+          src="/encuadrado2.png"
+          alt="Encuadrado Logo"
+          className="w-10 h-10"
+        />
+        <h1 className="text-4xl font-bold">La Vitrina</h1>
+      </div>
       <div className="flex h-[90%]">
         {/* Events Column */}
         <section className="w-1/2 h-full overflow-y-scroll pr-2 border-r border-[#FCECEA]/20">
