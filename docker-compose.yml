@@ -9,6 +9,7 @@ services:
     ports:
       - 8000:8000
     volumes:
+      - ./backend/db:/app/db
       - ./backend/.prospector.yaml:/app/.prospector.yaml
       - ./backend/pyproject.toml:/app/pyproject.toml
       - ./backend/poetry.lock:/app/poetry.lock

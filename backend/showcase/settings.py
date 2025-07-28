@@ -42,6 +42,7 @@ class Common(Configuration):
         "django.contrib.sessions",
         "django.contrib.messages",
         "django.contrib.staticfiles",
+        "corsheaders",
         "rest_framework",
         "showcase",
         "model",
@@ -49,11 +50,12 @@ class Common(Configuration):
     ]
 
     MIDDLEWARE = [
+        "corsheaders.middleware.CorsMiddleware",
         "django.middleware.security.SecurityMiddleware",
         "whitenoise.middleware.WhiteNoiseMiddleware",
         "django.contrib.sessions.middleware.SessionMiddleware",
         "django.middleware.common.CommonMiddleware",
-        "django.middleware.csrf.CsrfViewMiddleware",
+        # "django.middleware.csrf.CsrfViewMiddleware",
         "django.contrib.auth.middleware.AuthenticationMiddleware",
         "django.contrib.messages.middleware.MessageMiddleware",
         "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -88,11 +90,16 @@ class Common(Configuration):
     REST_FRAMEWORK = {
         # Use Django's standard `django.contrib.auth` permissions,
         # or allow read-only access for unauthenticated users.
-        "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
+        # "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
+        "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
+        # "DEFAULT_AUTHENTICATION_CLASSES": (
+        #     "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
+        #     "rest_framework_social_oauth2.authentication.SocialAuthentication",
+        # "rest_framework.authentication.SessionAuthentication",
+        # ),
         "DEFAULT_AUTHENTICATION_CLASSES": (
-            "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
-            "rest_framework_social_oauth2.authentication.SocialAuthentication",
-            "rest_framework.authentication.SessionAuthentication",
+            "rest_framework.authentication.BasicAuthentication",
+            "rest_framework.authentication.TokenAuthentication",
         ),
         "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
         "PAGE_SIZE": int(os.getenv("REST_FRAMEWORK_PAGE_SIZE", "50")),
@@ -106,6 +113,8 @@ class Development(Common):
 
     DEBUG = True
     ALLOWED_HOSTS = []
+    CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
+    CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]
     LOGGING = {
         "version": 1,
         "disable_existing_loggers": False,
