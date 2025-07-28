@@ -31,11 +31,26 @@ export default function ContentDetail() {
     e.preventDefault();
     setStatus(null);
     setError(null);
+
+    // Manual validation in Spanish
+    if (!form.name.trim()) {
+      setError("Por favor ingresa tu nombre.");
+      return;
+    }
+    if (!form.email.trim()) {
+      setError("Por favor ingresa tu correo.");
+      return;
+    }
+    if (!/\S+@\S+\.\S+/.test(form.email)) {
+      setError("Por favor ingresa un correo válido.");
+      return;
+    }
+
     try {
       const res = await purchaseContent({
         name: form.name,
         email: form.email,
-        content_id: content.id, // <-- FIXED: Use content_id
+        content_id: content.id,
         payment_method: form.paymentMethod,
         discount_code: form.discountCode,
       });
@@ -102,7 +117,6 @@ export default function ContentDetail() {
           value={form.name}
           onChange={handleChange}
           placeholder="Tu nombre"
-          required
           className="w-full p-2 rounded bg-[#22232d] text-white"
         />
         <input
@@ -110,8 +124,6 @@ export default function ContentDetail() {
           value={form.email}
           onChange={handleChange}
           placeholder="Tu correo"
-          type="email"
-          required
           className="w-full p-2 rounded bg-[#22232d] text-white"
         />
         <div className="flex gap-4">

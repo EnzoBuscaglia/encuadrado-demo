@@ -29,8 +29,25 @@ export default function EventDetail() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus(null);
     setError(null);
+
+    // Manual validation in Spanish
+    if (!form.name.trim()) {
+      setError("Por favor ingresa tu nombre.");
+      return;
+    }
+    if (!form.email.trim()) {
+      setError("Por favor ingresa tu correo.");
+      return;
+    }
+    // (Optional) Extra: check for valid email format
+    if (!/\S+@\S+\.\S+/.test(form.email)) {
+      setError("Por favor ingresa un correo válido.");
+      return;
+    }
+
+    setStatus(null);
+
     try {
       const res = await purchaseEvent({
         name: form.name,
@@ -96,7 +113,6 @@ export default function EventDetail() {
           value={form.name}
           onChange={handleChange}
           placeholder="Tu nombre"
-          required
           className="w-full p-2 rounded bg-[#22232d] text-white"
         />
         <input
@@ -104,8 +120,6 @@ export default function EventDetail() {
           value={form.email}
           onChange={handleChange}
           placeholder="Tu correo"
-          type="email"
-          required
           className="w-full p-2 rounded bg-[#22232d] text-white"
         />
         <div className="flex gap-4">
